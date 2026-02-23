@@ -23,7 +23,6 @@ RUN pip install --upgrade pip && \
 
 # Copy the Django project code
 COPY ./simple-aircraft-manager/ .
-COPY ./settings.py .
 
 # Make the entrypoint script executable
 RUN chmod +x /app/docker-entrypoint.sh
