@@ -1,9 +1,11 @@
 services:
   web:
     container_name: simple-aircraft-manager
-    image: barrettefab/simple-aircraft-manager:latest
-    expose:
-      - 8000
+    image: ghcr.io/marbindrakon/simple-aircraft-manager:latest
+    ports:
+     - 8000:8000
+    env_file:
+      - .env
     environment:
       DATABASE_ENGINE: postgresql
       DATABASE_NAME: simpleaircraft
@@ -24,21 +26,6 @@ services:
       DJANGO_CSRF_TRUSTED_ORIGINS: https://${DOMAIN}
     depends_on:
       - db
-    labels:
-      traefik.enable: true
-      traefik.docker.network: traefik_default
-      # HTTP
-      traefik.http.routers.simple-aircraft-manager.entrypoints: web,websecure
-      traefik.http.routers.simple-aircraft-manager.rule: Host(`${DOMAIN}`)
-      traefik.http.routers.simple-aircraft-manager.service: simple-aircraft-manager-service
-      traefik.http.services.simple-aircraft-manager-service.loadbalancer.server.port: 8000
-      traefik.http.routers.simple-aircraft-manager.tls: true
-      traefik.http.routers.simple-aircraft-manager.tls.certresolver: production
-      # Middlewares
-      traefik.http.routers.simple-aircraft-manager.middlewares: middlewares-authentik@file
-    networks:
-      - simple-aircraft-manager
-      - default
 
   db:
     image: postgres:15
@@ -51,9 +38,3 @@ services:
 
 volumes:
   db:
-
-networks:
-  simple-aircraft-manager:
-  default:
-    external: true
-    name: traefik_default
