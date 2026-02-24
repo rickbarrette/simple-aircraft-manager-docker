@@ -17,12 +17,11 @@ Bash
 ```
 git clone https://github.com/rickbarrette/simple-aircraft-manager-docker.git
 cd simple-aircraft-manager-docker
-git submodule update --init --recursive --remote
 ```
 
 ### 2\. Configuration
 
-Before launching, review the `docker-compose.yml` file. You may need to adjust port mappings, volume paths, or environment variables to suit your local setup.
+Before launching, review the `docker-compose.yml` and `.env` files. You may need to adjust port mappings, volume paths, or environment variables to suit your local setup.
 
 ### 3\. Build and Launch
 
@@ -31,9 +30,6 @@ Run the following commands to build the images and start the containers in the b
 Bash
 
 ```
-# Build the containers
-docker compose build
-
 # Start the application
 docker compose up -d
 ```
@@ -52,5 +48,3 @@ docker compose up -d
 ## 📂 Project Structure
 
 *   `docker-compose.yml` – Defines the multi-container application.
-    
-*   `/simple-aircraft-manager` – Git submodule containing the application source code.

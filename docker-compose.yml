@@ -1,26 +1,29 @@
 services:
   web:
     container_name: simple-aircraft-manager
-    build: .
+    image: ghcr.io/marbindrakon/simple-aircraft-manager:latest
     ports:
-      - "8000:8000"
+     - 8000:8000
+    env_file:
+      - .env
     environment:
       DATABASE_ENGINE: postgresql
       DATABASE_NAME: simpleaircraft
       DATABASE_USER: simpleaircraft
-      DATABASE_PASSWORD: strongpassword
+      DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
       DATABASE_HOST: db
-      DJANGO_SUPERUSER_USERNAME: admin
-      DJANGO_SUPERUSER_EMAIL: admin@domain.com
-      DJANGO_SUPERUSER_PASSWORD: password
-      DJANGO_SECRET_KEY: yoursecretkey
-      DJANGO_DEBUG: true
-      DJANGO_ALLOWED_HOSTS: localhost,127.0.0.1
-      OIDC_ENABLED: false
-      OIDC_OP_DISCOVERY_ENDPOINT: endpoint
-      OIDC_RP_CLIENT_ID: id
-      OIDC_RP_CLIENT_SECRET: secret
-      TZ: America/New_York
+      DJANGO_SUPERUSER_USERNAME: ${DJANGO_SUPERUSER_USERNAME}
+      DJANGO_SUPERUSER_EMAIL: ${DJANGO_SUPERUSER_EMAIL}
+      DJANGO_SUPERUSER_PASSWORD: ${DJANGO_SUPERUSER_PASSWORD}
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
+      DJANGO_DEBUG: ${DJANGO_DEBUG}
+      DJANGO_ALLOWED_HOSTS: ${DOMAIN}
+      OIDC_ENABLED: ${OIDC_ENABLED}
+      OIDC_OP_DISCOVERY_ENDPOINT: ${OIDC_OP_DISCOVERY_ENDPOINT}
+      OIDC_RP_CLIENT_ID: ${OIDC_RP_CLIENT_ID}
+      OIDC_RP_CLIENT_SECRET: ${OIDC_RP_CLIENT_SECRET}
+      TZ: ${TZ}
+      DJANGO_CSRF_TRUSTED_ORIGINS: https://${DOMAIN}
     depends_on:
       - db
 
@@ -29,9 +32,9 @@ services:
     environment:
       POSTGRES_DB: simpleaircraft
       POSTGRES_USER: simpleaircraft
-      POSTGRES_PASSWORD: strongpassword
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
 
 volumes:
-  db_data:
+  db:
